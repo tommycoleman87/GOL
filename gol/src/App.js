@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { AppContainer, PlayMenu } from './appStyles'
+import { AppContainer, PlayMenu, GameContainer, GridContainer } from './appStyles'
 import Cell from './cell/Cell'
 import { Row } from './rowStyle'
 import { automata } from './automata/automata'
-import { blinker } from './presets/presets'
+import { blinker, pulsar } from './presets/presetFuncs'
 import Rules from './rules/Rules'
-
+import Presets from './presets/Presets'
 function App() {
   const [constantUpdate, setConstantUpdate] = useState(false)
   const [grid, setGrid] = useState([
@@ -43,7 +43,7 @@ function App() {
       }, 1000)
       return () => clearInterval(play)
     }
-  }, [constantUpdate])
+  }, [constantUpdate, grid])
 
   const toggleCell = (x, y) => {
     let newGrid = [...grid]
@@ -64,20 +64,24 @@ function App() {
   return (
     <AppContainer>
       <h1>Conways Game of Life</h1>
+      <GameContainer>
       <Rules />
-      <button onClick={() => setGrid(blinker(grid))}>Blinker</button>
+      <GridContainer>
       {grid.map((arr, y) => {
         return (
           <Row key={`${y}`}>
 
             {arr.map((cell, x) => {
-              return <Cell live={cell} onClick={(e) => toggleCell(x, y)} key={`${x}${y}`} />
+              return <Cell live={cell} onClick={() => toggleCell(x, y)} key={`${x}${y}`} />
             })}
 
           </Row>
         )
 
       })}
+      </GridContainer>
+      <Presets />
+      </GameContainer>
       <PlayMenu>
         {constantUpdate ? null : <button onClick={() => clearBoard()}>Clear</button>}
         <button onClick={() => setConstantUpdate(!constantUpdate)}>{constantUpdate ? 'Pause' : 'Play'}</button>

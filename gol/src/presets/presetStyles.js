@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const RulesContainer = styled.div`
+export const PresetsContainer = styled.div`
     width: 90%;
     height: 500px;
     display: flex;
@@ -14,9 +14,9 @@ export const RulesContainer = styled.div`
     border-bottom: none;
 
     @media (min-width: 1000px) {
-        border-radius: 10px 0 0 10px;
+        border-radius: 0 10px 10px 0;
         width: 250px;
-        border-right: none;
+        border-left: none;
         border-bottom: 2px solid black;
     }
 `

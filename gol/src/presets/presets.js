@@ -1,7 +1,19 @@
-export const blinker = (grid) => {
-    let board = [...grid]
-    board[12][12] = true
-    board[12][11] = true
-    board[12][13] = true
-    return board
+import React from 'react'
+import { PresetsContainer } from './presetStyles'
+const Presets = () => {
+    return (
+        <PresetsContainer>
+            <h2>Presets</h2>
+            <ul>
+                <li>
+                    <button>Pulsar</button>
+                </li>
+                <li>
+                    <button>Blinker</button>
+                </li>
+            </ul>
+        </PresetsContainer>
+    )
 }
+
+export default Presets
