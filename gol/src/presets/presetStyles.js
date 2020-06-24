@@ -13,10 +13,17 @@ export const PresetsContainer = styled.div`
     border-radius: 10px;
     border-bottom: none;
 
+    @media (min-width: 800px) {
+        width: 100%;
+        border: 2px solid black;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+    }
     @media (min-width: 1000px) {
         border-radius: 0 10px 10px 0;
         width: 250px;
+        border: 2px solid black;
         border-left: none;
-        border-bottom: 2px solid black;
+       
     }
 `

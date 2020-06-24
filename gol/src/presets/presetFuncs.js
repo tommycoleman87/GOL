@@ -7,6 +7,7 @@ export const blinker = grid => {
 }
 
 export const pulsar = grid => {
+    console.log(grid)
     let board = [...grid]
     board[5][10] = true
     board[5][9] = true
@@ -75,6 +76,30 @@ export const pulsar = grid => {
     board[17][14] = true
     board[17][15] = true
     board[17][16] = true
+
+    return board
+}
+
+export const startingBoard = grid => {
+    let board = [...grid]
+    for(let y = 0; y < grid.length; y++) {
+        for(let x = 0; x < grid.length; x++) {
+            board[y][x] = false
+        }
+    }
+    return board
+}
+
+export const randomBoard = grid => {
+    let board = [...grid]
+    for(let y = 0; y < grid.length; y++) {
+        for(let x = 0; x < grid.length; x++) {
+            let toggleCell = Math.floor(Math.random() * 10)
+            if(toggleCell < 2) {
+                board[y][x] = true
+            }
+        }
+    }
 
     return board
 }

@@ -12,11 +12,15 @@ export const RulesContainer = styled.div`
     border: 2px solid black;
     border-radius: 10px;
     border-bottom: none;
-
+    @media (min-width: 800px) {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+    }
     @media (min-width: 1000px) {
         border-radius: 10px 0 0 10px;
         width: 250px;
+        border: 2px solid black;
         border-right: none;
-        border-bottom: 2px solid black;
+      
     }
 `

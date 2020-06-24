@@ -3,55 +3,36 @@ import { AppContainer, PlayMenu, GameContainer, GridContainer } from './appStyle
 import Cell from './cell/Cell'
 import { Row } from './rowStyle'
 import { automata } from './automata/automata'
-import { blinker, pulsar } from './presets/presetFuncs'
+
 import Rules from './rules/Rules'
 import Presets from './presets/Presets'
+
 function App() {
-  const [constantUpdate, setConstantUpdate] = useState(false)
-  const [grid, setGrid] = useState([
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]])
+  const [generation, setGeneration] = useState(0)
+  const [play, setPlay] = useState(false)
+  const [grid, setGrid] = useState(new Array(25).fill([]).map(row => new Array(25).fill(false)))
 
   useEffect(() => {
-    if (constantUpdate === true) {
-      let play = setInterval(() => {
+    if (play === true) {
+      let playing = setInterval(() => {
         let newGrid = automata(grid)
+        setGeneration(generation + 1)
         setGrid(newGrid)
       }, 1000)
-      return () => clearInterval(play)
+      return () => clearInterval(playing)
     }
-  }, [constantUpdate, grid])
+  }, [play, grid])
 
   const toggleCell = (x, y) => {
-    let newGrid = [...grid]
-    newGrid[y][x] = !newGrid[y][x]
-    setGrid([...newGrid])
+    if (play === false) {
+      let newGrid = [...grid]
+      newGrid[y][x] = !newGrid[y][x]
+      setGrid([...newGrid])
+    }
   }
 
   const clearBoard = () => {
+    setGeneration(0)
     setGrid(grid.map(row => {
       return row.map(cell => {
         cell = false
@@ -61,30 +42,35 @@ function App() {
   }
 
 
+
   return (
     <AppContainer>
       <h1>Conways Game of Life</h1>
+      <p>Generation #{generation}</p>
       <GameContainer>
-      <Rules />
-      <GridContainer>
-      {grid.map((arr, y) => {
-        return (
-          <Row key={`${y}`}>
+   
+        <Rules />
 
-            {arr.map((cell, x) => {
-              return <Cell live={cell} onClick={() => toggleCell(x, y)} key={`${x}${y}`} />
-            })}
+        <GridContainer>
 
-          </Row>
-        )
+          {grid.map((arr, y) => {
+            return (
+              <Row key={`${y}`}>
 
-      })}
-      </GridContainer>
-      <Presets />
+                {arr.map((cell, x) => {
+                  return <Cell live={cell} onClick={() => toggleCell(x, y)} key={`${x}${y}`} />
+                })}
+
+              </Row>
+            )
+
+          })}
+        </GridContainer>
+        <Presets board={grid} setBoard={setGrid} playing={play} />
       </GameContainer>
       <PlayMenu>
-        {constantUpdate ? null : <button onClick={() => clearBoard()}>Clear</button>}
-        <button onClick={() => setConstantUpdate(!constantUpdate)}>{constantUpdate ? 'Pause' : 'Play'}</button>
+        {play ? null : <button onClick={() => clearBoard()}>Clear</button>}
+        <button onClick={() => setPlay(!play)}>{play ? 'Pause' : 'Play'}</button>
       </PlayMenu>
     </AppContainer>
   );

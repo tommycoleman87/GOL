@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 export const Row = styled.div`
-    width: 300px;
-    height: 12px;
+    width: 100%;
     display: flex;
 
     @media (min-width: 500px) {

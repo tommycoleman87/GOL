@@ -12,7 +12,7 @@ export const AppContainer = styled.div`
 
 export const PlayMenu = styled.div`
     margin-top: 20px;
-    width: 500px;
+    width: 100%;
     display: flex;
     justify-content: space-around;
 
@@ -28,9 +28,14 @@ export const GameContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    align-items: center;
 
+    @media (min-width: 800px) {
+        width: 500px;
+    }
 
     @media (min-width: 1000px) {
+        width: 1000px;
         flex-direction: row;
         justify-content: center;
         align-items: center;
